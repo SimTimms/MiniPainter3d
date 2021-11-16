@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 export default function Mesh({
@@ -7,9 +7,11 @@ export default function Mesh({
   rotation,
   scale,
   activeColor,
+  sprayMode,
 }) {
   const [meshColor, setMeshColor] = React.useState('#aaa');
   const [material, setMaterial] = React.useState(null);
+  const [paintMode, setPaintMode] = React.useState(0);
 
   useEffect(() => {
     const materialNew = new THREE.MeshStandardMaterial({
@@ -17,7 +19,6 @@ export default function Mesh({
     });
     setMaterial(materialNew);
   }, []);
-
   return (
     material && (
       <group
@@ -26,10 +27,17 @@ export default function Mesh({
         scale={scale && scale}
       >
         <mesh
-          onClick={(e) => {
-            e.stopPropagation();
-            setMeshColor(activeColor.color);
+          onPointerEnter={(e) => {
+            if (sprayMode && meshColor !== activeColor.color) {
+              setMeshColor(activeColor.color);
+            }
           }}
+          onPointerDown={(e) => paintMode !== 1 && setPaintMode(1)}
+          onPointerUp={(e) => {
+            e.stopPropagation();
+            paintMode && setMeshColor(activeColor.color);
+          }}
+          onPointerMove={(e) => paintMode !== 0 && setPaintMode(0)}
           material={material}
           material-color={meshColor}
           castShadow

@@ -2,9 +2,9 @@ import React, { useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import Mesh from './Mesh';
 
-export default function ModelScript({ gltfIn, activeColor }) {
+export default function ModelScript({ gltfIn, activeColor, sprayMode }) {
   const group = useRef();
-  const { nodes } = useGLTF('models/scene.gltf');
+  const { nodes } = useGLTF(gltfIn);
 
   const rNbr = (number) => {
     return parseFloat(number.toFixed(Math.round(2)));
@@ -52,6 +52,7 @@ export default function ModelScript({ gltfIn, activeColor }) {
           if (item.geometry && item.visible) {
             nodeMap.push(
               <Mesh
+                sprayMode={sprayMode}
                 activeColor={activeColor}
                 geometry={item.geometry}
                 scale={item.scale}
