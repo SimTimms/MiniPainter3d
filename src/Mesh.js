@@ -8,15 +8,14 @@ export default function Mesh({
   scale,
   activeColor,
   sprayMode,
+  materialIn,
 }) {
   const [meshColor, setMeshColor] = React.useState('#aaa');
   const [material, setMaterial] = React.useState(null);
   const [paintMode, setPaintMode] = React.useState(0);
 
   useEffect(() => {
-    const materialNew = new THREE.MeshStandardMaterial({
-      transparent: true,
-    });
+    const materialNew = new THREE.MeshStandardMaterial(materialIn);
     setMaterial(materialNew);
   }, []);
   return (

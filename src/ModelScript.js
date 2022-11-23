@@ -4,7 +4,7 @@ import Mesh from './Mesh';
 
 export default function ModelScript({ gltfIn, activeColor, sprayMode }) {
   const group = useRef();
-  const { nodes } = useGLTF(gltfIn);
+  const { nodes, materials } = useGLTF(gltfIn);
 
   const rNbr = (number) => {
     return parseFloat(number.toFixed(Math.round(2)));
@@ -56,6 +56,7 @@ export default function ModelScript({ gltfIn, activeColor, sprayMode }) {
                 activeColor={activeColor}
                 geometry={item.geometry}
                 scale={item.scale}
+                materialIn={nodeArr[i].material}
                 position={[
                   rNbr(item.position.x),
                   rNbr(item.position.y),
